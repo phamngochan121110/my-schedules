@@ -13,7 +13,7 @@
 <div class="app-shell">
   <aside class="sidebar">
     <div class="brand"><span class="brand-mark">✿</span><div><b>my schedules</b><small>little plans, big days</small></div></div>
-    <div class="hello">Hi, Hân! <span>♡</span></div>
+    <div class="hello" id="helloGreeting">Hi, Hân! <span>♡</span></div>
     <nav id="nav">
       <button class="nav-item active" data-view="calendar"><span>▦</span> Calendar</button>
       <button class="nav-item" data-view="events"><span>✧</span> Scheduled</button>
@@ -23,7 +23,7 @@
     </nav>
     <div class="sidebar-bottom">
       <div class="mini-note"><span>☁</span><b>Your space, your pace</b><small>Dữ liệu được lưu trên thiết bị này.</small></div>
-      <button class="nav-item" id="backupBtn"><span>⇅</span> Sao lưu / khôi phục</button>
+      <button class="nav-item" id="settingsBtn"><span>⚙</span> Settings</button><button class="nav-item" id="backupBtn"><span>⇅</span> Sao lưu / khôi phục</button>
     </div>
   </aside>
 
@@ -38,7 +38,7 @@
   <aside class="detail-panel">
     <div class="detail-head"><div><div class="eyebrow">YOUR DAY</div><h2 id="detailTitle">Chi tiết ngày</h2></div><span class="detail-spark">✦</span></div>
     <div id="detailContent" class="detail-content"></div>
-    <div class="quote-card"><span>“</span><p>Small steps every day make the days count.</p><small>♡ MY SCHEDULES</small></div>
+    <div class="quote-card"><span>“</span><p id="dailyQuoteText"></p><small id="dailyQuoteSource">♡ MY SCHEDULES</small></div>
   </aside>
 </div>
 
@@ -73,7 +73,7 @@
     <p class="tiny muted">Tệp sao lưu chứa sự kiện, công việc và các ngày đếm ngược của bạn.</p>
   </div>
 </div>
-<div class="toast" id="toast"></div>
+<div class="modal-backdrop hidden" id="settingsModal"><form class="modal" id="settingsForm"><div class="modal-title"><div><div class="eyebrow">MAKE IT YOURS</div><h2 id="settingsTitle">Settings ⚙</h2></div><button type="button" class="close-btn" id="closeSettings">×</button></div><label id="greetingLabel">Greeting on the sidebar<input id="greetingInput" maxlength="40" placeholder="Hi, Hân!"></label><label id="languageLabel">Language<select id="languageSelect"><option value="vi">Tiếng Việt</option><option value="en">English</option></select></label><div class="modal-actions"><span class="tiny muted" id="settingsHint">Your preferences are saved on this device.</span><button class="primary-btn" type="submit" id="saveSettings">Save ♡</button></div></form></div><div class="toast" id="toast"></div>
 <script src="app.js"></script>
 </body>
 </html>
