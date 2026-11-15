@@ -32,7 +32,7 @@ function openMonthPicker(){
  const lang=localStorage.getItem("ms_language")||"vi";
  const year=shown.getFullYear();
  $("pickerYear").innerHTML="";
- for(let y=year-20;y<=year+20;y++){const o=document.createElement("option");o.value=y;o.textContent=y;if(y===year)o.selected=true;$("pickerYear").appendChild(o);}
+ for(let y=1900;y<=2100;y++){const o=document.createElement("option");o.value=y;o.textContent=y;if(y===year)o.selected=true;$("pickerYear").appendChild(o);}
  $("pickerMonths").innerHTML="";
  for(let month=0;month<12;month++){
   const b=document.createElement("button");b.type="button";b.className="picker-month"+(month===shown.getMonth()?" active":"");
