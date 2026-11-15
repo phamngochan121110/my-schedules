@@ -26,3 +26,48 @@
 .picker-month:hover,.picker-month.active{background:#f4e8ff;border-color:#a66be4;color:var(--purple)}
 .picker-current{width:100%;margin-top:11px;border:0;border-radius:9px;padding:9px;background:#fff7d8;color:#85652a;font:800 11px Nunito;cursor:pointer}
 @media(max-width:700px){.month-picker{width:min(270px,calc(100vw - 55px))}}
+
+
+/* Dark appearance */
+:root[data-theme="dark"]{
+ --cream:#493b27;--pink:#87547f;--lilac:#a879d4;--purple:#ad83e8;
+ --ink:#f1e8fa;--muted:#b7a8c4;--line:#493a55;--paper:#2b2233;--bg:#211a29;
+ color-scheme:dark;
+}
+:root[data-theme="dark"] body,
+:root[data-theme="dark"] .app-shell{background:var(--bg);color:var(--ink)}
+:root[data-theme="dark"] .sidebar,
+:root[data-theme="dark"] .detail-panel,
+:root[data-theme="dark"] .calendar-card,
+:root[data-theme="dark"] .section-card,
+:root[data-theme="dark"] .mini-card,
+:root[data-theme="dark"] .modal,
+:root[data-theme="dark"] .event-item,
+:root[data-theme="dark"] .day-cell,
+:root[data-theme="dark"] .month-picker,
+:root[data-theme="dark"] .month-picker-head select,
+:root[data-theme="dark"] .picker-month,
+:root[data-theme="dark"] .icon-btn,
+:root[data-theme="dark"] .today-btn,
+:root[data-theme="dark"] .small-btn,
+:root[data-theme="dark"] .ghost-btn,
+:root[data-theme="dark"] .upload-btn,
+:root[data-theme="dark"] .modal input,
+:root[data-theme="dark"] .modal select,
+:root[data-theme="dark"] .modal textarea{background:#2d2436;color:var(--ink);border-color:var(--line)}
+:root[data-theme="dark"] .nav-item{color:#c4b4d1}
+:root[data-theme="dark"] .nav-item:hover,
+:root[data-theme="dark"] .nav-item.active,
+:root[data-theme="dark"] .date-summary,
+:root[data-theme="dark"] .stat-box{background:#3b2d49;color:var(--ink)}
+:root[data-theme="dark"] .mini-note{background:#40372b}
+:root[data-theme="dark"] .quote-card{background:#51452b;color:#fff0c2}
+:root[data-theme="dark"] .quote-card small{color:#e4c77e}
+:root[data-theme="dark"] .today-chip{background:#34293f;color:#d9c3ef}
+:root[data-theme="dark"] .day-cell.selected{outline-color:#c19aff}
+:root[data-theme="dark"] .empty-state{border-color:#574565;color:#c2b0d0}
+:root[data-theme="dark"] .picker-month:hover,
+:root[data-theme="dark"] .picker-month.active{background:#49365d;color:#eadbff}
+:root[data-theme="dark"] .picker-current{background:#51452b;color:#ffe6a6}
+:root[data-theme="dark"] .toast{background:#eee2fb;color:#30213d}
+:root[data-theme="dark"] .event-dot{filter:saturate(.9)}
