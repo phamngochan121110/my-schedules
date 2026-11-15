@@ -1,5 +1,5 @@
 const $=id=>document.getElementById(id);
-const TYPES={birthday:{icon:"🎂",color:"#ffbefb",label:"Sinh nhật"},study:{icon:"📚",color:"#dc95ff",label:"Học tập"},food:{icon:"🍰",color:"#fff0a6",label:"Ăn uống"},bike:{icon:"🚲",color:"#b9e8d0",label:"Đạp xe"},school:{icon:"🏫",color:"#c9d9ff",label:"Trường học"},swim:{icon:"🏊",color:"#aee7f2",label:"Bơi lội"},shopping:{icon:"🛍️",color:"#ffc9df",label:"Mua sắm"},exam:{icon:"📝",color:"#ffcf9d",label:"Thi cử"},travel:{icon:"✈️",color:"#c5d9ff",label:"Du lịch"},meeting:{icon:"💌",color:"#ffd1e8",label:"Hẹn gặp"},other:{icon:"🌷",color:"#e8d4ff",label:"Khác"}};
+const TYPES={birthday:{icon:"🎂",color:"#ffbefb",label:"Sinh nhật"},study:{icon:"📚",color:"#dc95ff",label:"Học tập"},food:{icon:"🍰",color:"#fff0a6",label:"Ăn uống"},bike:{icon:"🚲",color:"#b9e8d0",label:"Đạp xe"},school:{icon:"🏫",color:"#c9d9ff",label:"Trường học"},swim:{icon:"🏊",color:"#aee7f2",label:"Bơi lội"},shopping:{icon:"🛍️",color:"#ffc9df",label:"Mua sắm"},exam:{icon:"📝",color:"#ffcf9d",label:"Thi cử"},travel:{icon:"✈️",color:"#c5d9ff",label:"Du lịch"},meeting:{icon:"💌",color:"#ffd1e8",label:"Hẹn gặp"},outing:{icon:"🎡",color:"#ffd9a8",label:"Đi chơi"},other:{icon:"🌷",color:"#e8d4ff",label:"Khác"}};
 const today=new Date(); const keyDate=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 const load=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch{return []}};
 let events=load("ms_events"),tasks=load("ms_tasks"),countdowns=load("ms_countdowns");
@@ -595,8 +595,8 @@ applyLanguage=function(){
  const custom=localStorage.getItem("ms_greeting");
  if(!custom || custom==="Hi, Hân!" || custom==="Chào, Hân!") $("helloGreeting").innerHTML=(lang==="vi"?"Chào, Hân!":"Hi, Hân!")+" <span>♡</span>";
  const typeLabels=lang==="vi"
-  ?["Sinh nhật","Học tập","Ăn uống","Đạp xe","Trường học","Bơi lội","Mua sắm","Thi cử","Du lịch","Hẹn gặp","Khác"]
-  :["Birthday","Study","Food","Cycling","School","Swimming","Shopping","Exams","Travel","Meetup","Other"];
+  ?["Sinh nhật","Học tập","Ăn uống","Đạp xe","Trường học","Bơi lội","Mua sắm","Thi cử","Du lịch","Hẹn gặp","Đi chơi","Khác"]
+  :["Birthday","Study","Food","Cycling","School","Swimming","Shopping","Exams","Travel","Meetup","Going out","Other"];
  Object.keys(TYPES).forEach((key,i)=>TYPES[key].label=typeLabels[i]);
 };
 const previousOpenSettings=openSettings;
@@ -635,3 +635,30 @@ render();
 renderDailyQuote();
 
 PAIRS.push(["Lịch dương · lịch âm hiển thị cùng lúc","Solar · lunar calendar"],["Về tháng hiện tại","Go to current month"]);
+
+
+// Appearance preference: saved locally and kept when switching languages.
+function applyTheme(){
+ const theme=localStorage.getItem("ms_theme")||"light";
+ document.documentElement.dataset.theme=theme;
+ document.body.dataset.theme=theme;
+ const meta=document.querySelector('meta[name="theme-color"]');
+ if(meta)meta.content=theme==="dark"?"#21182b":"#8c56d4";
+}
+const previousOpenSettingsForTheme=openSettings;
+openSettings=function(){
+ previousOpenSettingsForTheme();
+ $("themeSelect").value=localStorage.getItem("ms_theme")||"light";
+ const lang=localStorage.getItem("ms_language")||"vi";
+ $("themeLabel").firstChild.textContent=lang==="vi"?"Giao diện":"Appearance";
+ $("themeSelect").options[0].text=lang==="vi"?"☀️ Sáng":"☀️ Light";
+ $("themeSelect").options[1].text=lang==="vi"?"🌙 Tối":"🌙 Dark";
+};
+const previousSettingsSubmitForTheme=$("settingsForm").onsubmit;
+$("settingsForm").onsubmit=function(e){
+ const theme=$("themeSelect").value;
+ previousSettingsSubmitForTheme.call(this,e);
+ localStorage.setItem("ms_theme",theme);
+ applyTheme();
+};
+applyTheme();
