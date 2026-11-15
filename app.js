@@ -7,7 +7,7 @@ let view="calendar",shown=new Date(today.getFullYear(),today.getMonth(),1),selec
 let reminded=new Set();
 function save(){localStorage.setItem("ms_events",JSON.stringify(events));localStorage.setItem("ms_tasks",JSON.stringify(tasks));localStorage.setItem("ms_countdowns",JSON.stringify(countdowns))}
 function toast(s){$("toast").textContent=s;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),2300)}
-function fmt(d,opts={day:"numeric",month:"long",year:"numeric"}){return new Intl.DateTimeFormat("vi-VN",opts).format(d)}
+function fmt(d,opts={day:"numeric",month:"long",year:"numeric"}){return new Intl.DateTimeFormat((localStorage.getItem("ms_language")||"vi")==="vi"?"vi-VN":"en-US",opts).format(d)}
 function dateFrom(s){const [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)}
 // Vietnamese lunar calendar conversion (UTC+7), valid for modern Gregorian dates.
 const PI=Math.PI, TZ=7;
@@ -83,29 +83,423 @@ const DAILY_QUOTES = [
 {en:"You are growing in ways you cannot yet see.",vi:"Bạn đang trưởng thành theo những cách có thể chưa nhận ra.",by:"My Schedules",src:"Lời nhắn riêng",url:""}
 ];
 const PAIRS = [
-["Calendar","Lịch"],["Scheduled","Sự kiện"],["To-do list","Việc cần làm"],["Countdowns","Đếm ngược"],["Statistics","Thống kê"],
-["YOUR PERSONAL PLANNER","LỊCH TRÌNH CÁ NHÂN"],["YOUR DAY","NGÀY CỦA BẠN"],["Hi, Hân!","Chào, Hân!"],["little plans, big days","kế hoạch nhỏ, ngày vui"],
-["Your space, your pace","Không gian của riêng bạn"],["Dữ liệu được lưu trên thiết bị này.","Your data is saved on this device."],
-["Lịch dương · lịch âm hiển thị cùng lúc","Solar and lunar calendars together"],["Sắp tới","Coming up"],["Một việc nhỏ hôm nay","A little task for today"],
-["Tất cả sự kiện ✧","All events ✧"],["Những điều quan trọng bạn đã đánh dấu","The important things you've marked"],
-["Viết ra từng việc nhỏ và đánh dấu khi hoàn thành","Write down little tasks and tick them off"],
-["Bạn cần làm gì?","What do you need to do?"],["Không đặt hạn","No due date"],["Danh sách đang trống. Thêm một việc nhỏ nhé!","Your list is empty. Add a little task!"],
-["Đếm ngược đến những ngày bạn mong chờ","Count down to days you're looking forward to"],["Tên ngày đặc biệt","Special day name"],
-["Thống kê lịch trình","Schedule statistics"],["Tổng quan những gì bạn đã lên kế hoạch","An overview of what you've planned"],
-["TỔNG SỰ KIỆN","TOTAL EVENTS"],["SẮP DIỄN RA","UPCOMING"],["VIỆC ĐÃ XONG","TASKS DONE"],
-["MAKE A LITTLE PLAN","MAKE A LITTLE PLAN"],["Thêm sự kiện","Add event"],["Tên sự kiện","Event name"],["Ngày","Date"],["Giờ","Time"],["Loại sự kiện","Event type"],["Nhắc trước","Remind me"],["Ghi chú","Notes"],["Xóa sự kiện","Delete event"],["Lưu sự kiện ♡","Save event ♡"],
-["YOUR DATA","YOUR DATA"],["Sao lưu & khôi phục","Backup & restore"],["Xuất bản sao lưu","Export backup"],["Nhập bản sao lưu","Import backup"],
-["Không nhắc","No reminder"],["10 phút","10 minutes"],["30 phút","30 minutes"],["1 giờ","1 hour"],["1 ngày","1 day"],
-["Hôm nay","Today"],["Thêm vào ngày này","Add to this day"],["Chưa có sự kiện nào trong ngày này.","No events on this day."],
-["Chọn ngày để xem chi tiết","Choose a day to see details"],["Cả ngày","All day"],["Chi tiết","Details"],["Xóa","Delete"],
-["Đã lưu sự kiện ♡","Event saved ♡"],["Đã xóa sự kiện","Event deleted"],["Không có sự kiện sắp tới.","No upcoming events."],
-["Công việc đang chờ bạn hoàn thành. Cứ từ từ nhé!","Tasks are waiting for you. Take your time!"],
-["Đã qua","Passed"],["＋ Thêm mới","＋ Add new"],["＋ Thêm","＋ Add"],["Sao lưu / khôi phục","Backup / restore"]
-];
+  [
+    "Calendar",
+    "Lịch"
+  ],
+  [
+    "Scheduled",
+    "Sự kiện"
+  ],
+  [
+    "To-do list",
+    "Việc cần làm"
+  ],
+  [
+    "Countdowns",
+    "Đếm ngược"
+  ],
+  [
+    "Statistics",
+    "Thống kê"
+  ],
+  [
+    "YOUR PERSONAL PLANNER",
+    "LỊCH TRÌNH CÁ NHÂN"
+  ],
+  [
+    "YOUR DAY",
+    "NGÀY CỦA BẠN"
+  ],
+  [
+    "Hi, Hân!",
+    "Chào, Hân!"
+  ],
+  [
+    "little plans, big days",
+    "kế hoạch nhỏ, ngày vui"
+  ],
+  [
+    "Your space, your pace",
+    "Không gian của riêng bạn"
+  ],
+  [
+    "Your data is saved on this device.",
+    "Dữ liệu được lưu trên thiết bị này."
+  ],
+  [
+    "Solar and lunar calendars together",
+    "Lịch dương · lịch âm hiển thị cùng lúc"
+  ],
+  [
+    "Coming up",
+    "Sắp tới"
+  ],
+  [
+    "A little task for today",
+    "Một việc nhỏ hôm nay"
+  ],
+  [
+    "All events ✧",
+    "Tất cả sự kiện ✧"
+  ],
+  [
+    "The important things you've marked",
+    "Những điều quan trọng bạn đã đánh dấu"
+  ],
+  [
+    "Write down little tasks and tick them off",
+    "Viết ra từng việc nhỏ và đánh dấu khi hoàn thành"
+  ],
+  [
+    "What do you need to do?",
+    "Bạn cần làm gì?"
+  ],
+  [
+    "No due date",
+    "Không đặt hạn"
+  ],
+  [
+    "Your list is empty. Add a little task!",
+    "Danh sách đang trống. Thêm một việc nhỏ nhé!"
+  ],
+  [
+    "Count down to days you're looking forward to",
+    "Đếm ngược đến những ngày bạn mong chờ"
+  ],
+  [
+    "Special day name",
+    "Tên ngày đặc biệt"
+  ],
+  [
+    "Schedule statistics",
+    "Thống kê lịch trình"
+  ],
+  [
+    "An overview of what you've planned",
+    "Tổng quan những gì bạn đã lên kế hoạch"
+  ],
+  [
+    "TOTAL EVENTS",
+    "TỔNG SỰ KIỆN"
+  ],
+  [
+    "UPCOMING",
+    "SẮP DIỄN RA"
+  ],
+  [
+    "TASKS DONE",
+    "VIỆC ĐÃ XONG"
+  ],
+  [
+    "MAKE A LITTLE PLAN",
+    "LÊN KẾ HOẠCH NHỎ"
+  ],
+  [
+    "Add event",
+    "Thêm sự kiện"
+  ],
+  [
+    "Event name",
+    "Tên sự kiện"
+  ],
+  [
+    "Date",
+    "Ngày"
+  ],
+  [
+    "Time",
+    "Giờ"
+  ],
+  [
+    "Event type",
+    "Loại sự kiện"
+  ],
+  [
+    "Remind me",
+    "Nhắc trước"
+  ],
+  [
+    "Notes",
+    "Ghi chú"
+  ],
+  [
+    "Delete event",
+    "Xóa sự kiện"
+  ],
+  [
+    "Save event ♡",
+    "Lưu sự kiện ♡"
+  ],
+  [
+    "YOUR DATA",
+    "DỮ LIỆU CỦA BẠN"
+  ],
+  [
+    "Backup & restore",
+    "Sao lưu & khôi phục"
+  ],
+  [
+    "Export backup",
+    "Xuất bản sao lưu"
+  ],
+  [
+    "Import backup",
+    "Nhập bản sao lưu"
+  ],
+  [
+    "No reminder",
+    "Không nhắc"
+  ],
+  [
+    "10 minutes",
+    "10 phút"
+  ],
+  [
+    "30 minutes",
+    "30 phút"
+  ],
+  [
+    "1 hour",
+    "1 giờ"
+  ],
+  [
+    "1 day",
+    "1 ngày"
+  ],
+  [
+    "Today",
+    "Hôm nay"
+  ],
+  [
+    "Add to this day",
+    "Thêm vào ngày này"
+  ],
+  [
+    "No events on this day.",
+    "Chưa có sự kiện nào trong ngày này."
+  ],
+  [
+    "Choose a day to see details",
+    "Chọn ngày để xem chi tiết"
+  ],
+  [
+    "All day",
+    "Cả ngày"
+  ],
+  [
+    "Details",
+    "Chi tiết"
+  ],
+  [
+    "Delete",
+    "Xóa"
+  ],
+  [
+    "Event saved ♡",
+    "Đã lưu sự kiện ♡"
+  ],
+  [
+    "Event deleted",
+    "Đã xóa sự kiện"
+  ],
+  [
+    "No upcoming events.",
+    "Chưa có sự kiện sắp tới."
+  ],
+  [
+    "Tasks are waiting for you. Take your time!",
+    "Công việc đang chờ bạn hoàn thành. Cứ từ từ nhé!"
+  ],
+  [
+    "Passed",
+    "Đãผ่าน"
+  ],
+  [
+    "＋ Add new",
+    "＋ Thêm mới"
+  ],
+  [
+    "＋ Add",
+    "＋ Thêm"
+  ],
+  [
+    "Backup / restore",
+    "Sao lưu / khôi phục"
+  ],
+  [
+    "Monday",
+    "Thứ Hai"
+  ],
+  [
+    "Tuesday",
+    "Thứ Ba"
+  ],
+  [
+    "Wednesday",
+    "Thứ Tư"
+  ],
+  [
+    "Thursday",
+    "Thứ Năm"
+  ],
+  [
+    "Friday",
+    "Thứ Sáu"
+  ],
+  [
+    "Saturday",
+    "Thứ Bảy"
+  ],
+  [
+    "Sunday",
+    "Chủ Nhật"
+  ],
+  [
+    "Mon",
+    "T2"
+  ],
+  [
+    "Tue",
+    "T3"
+  ],
+  [
+    "Wed",
+    "T4"
+  ],
+  [
+    "Thu",
+    "T5"
+  ],
+  [
+    "Fri",
+    "T6"
+  ],
+  [
+    "Sat",
+    "T7"
+  ],
+  [
+    "Sun",
+    "CN"
+  ],
+  [
+    "Birthday",
+    "Sinh nhật"
+  ],
+  [
+    "Study",
+    "Học tập"
+  ],
+  [
+    "Food",
+    "Ăn uống"
+  ],
+  [
+    "Cycling",
+    "Đạp xe"
+  ],
+  [
+    "School",
+    "Trường học"
+  ],
+  [
+    "Swimming",
+    "Bơi lội"
+  ],
+  [
+    "Shopping",
+    "Mua sắm"
+  ],
+  [
+    "Exams",
+    "Thi cử"
+  ],
+  [
+    "Travel",
+    "Du lịch"
+  ],
+  [
+    "Meetup",
+    "Hẹn gặp"
+  ],
+  [
+    "Other",
+    "Khác"
+  ],
+  [
+    "Example: Birthday, math test...",
+    "Ví dụ: Sinh nhật, kiểm tra Toán..."
+  ],
+  [
+    "Add a little note for this day...",
+    "Thêm thông tin nhỏ cho ngày này..."
+  ],
+  [
+    "No events yet. Add your first event!",
+    "Chưa có sự kiện. Hãy thêm sự kiện đầu tiên của bạn!"
+  ],
+  [
+    "An event, trip or milestone to remember.",
+    "Thêm ngày sinh nhật, chuyến đi hoặc cột mốc đáng nhớ."
+  ],
+  [
+    "Today",
+    "Hôm nay"
+  ],
+  [
+    "days",
+    "ngày"
+  ],
+  [
+    "day",
+    "ngày"
+  ],
+  [
+    "Calendar",
+    "Lịch"
+  ],
+  [
+    "Settings",
+    "Cài đặt"
+  ],
+  [
+    "Greeting on the sidebar",
+    "Lời chào ở thanh bên"
+  ],
+  [
+    "Language",
+    "Ngôn ngữ"
+  ],
+  [
+    "Your preferences are saved on this device.",
+    "Tùy chọn được lưu trên thiết bị này."
+  ],
+  [
+    "Save ♡",
+    "Lưu ♡"
+  ],
+  [
+    "Solar calendar",
+    "Lịch dương"
+  ],
+  [
+    "Lunar calendar",
+    "Lịch âm"
+  ],
+  [
+    "No events",
+    "Chưa có sự kiện"
+  ],
+  [
+    "A little at a time",
+    "Từng chút một"
+  ]
+];;
 function applyLanguage(){
  const lang=localStorage.getItem("ms_language")||"vi";
  document.documentElement.lang=lang;
- const pairs=lang==="vi"?PAIRS:PAIRS.map(function(p){return [p[1],p[0]];});
+ const pairs=(lang==="vi"?PAIRS:PAIRS.map(function(p){return [p[1],p[0]];})).slice().sort(function(a,b){return b[0].length-a[0].length;});
  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
  let node;
  while(node=walker.nextNode()){
@@ -157,3 +551,40 @@ const originalRender=render;
 render=function(){originalRender();applyLanguage();renderDailyQuote();};
 applyLanguage();
 renderDailyQuote();
+
+
+const originalGreetingDefault="Hi, Hân!";
+const oldRenderLanguage=render;
+render=function(){oldRenderLanguage();};
+const originalApplyLanguage=applyLanguage;
+applyLanguage=function(){
+ originalApplyLanguage();
+ const lang=localStorage.getItem("ms_language")||"vi";
+ const custom=localStorage.getItem("ms_greeting");
+ if(!custom) $("helloGreeting").innerHTML=(lang==="vi"?"Chào, Hân!":"Hi, Hân!")+" <span>♡</span>";
+ const typeLabels=lang==="vi"
+  ?["Sinh nhật","Học tập","Ăn uống","Đạp xe","Trường học","Bơi lội","Mua sắm","Thi cử","Du lịch","Hẹn gặp","Khác"]
+  :["Birthday","Study","Food","Cycling","School","Swimming","Shopping","Exams","Travel","Meetup","Other"];
+ Object.keys(TYPES).forEach((key,i)=>TYPES[key].label=typeLabels[i]);
+};
+const previousOpenSettings=openSettings;
+openSettings=function(){
+ previousOpenSettings();
+ if(!localStorage.getItem("ms_greeting")) $("greetingInput").value=(localStorage.getItem("ms_language")==="vi"?"Chào, Hân!":"Hi, Hân!");
+};
+const previousSettingsSubmit=$("settingsForm").onsubmit;
+$("settingsForm").onsubmit=function(e){
+ e.preventDefault();
+ const chosenGreeting=$("greetingInput").value.trim();
+ const lang=$("languageSelect").value;
+ const defaultGreeting=lang==="vi"?"Chào, Hân!":"Hi, Hân!";
+ if(chosenGreeting && chosenGreeting!==defaultGreeting) localStorage.setItem("ms_greeting",chosenGreeting);
+ else localStorage.removeItem("ms_greeting");
+ localStorage.setItem("ms_language",lang);
+ $("helloGreeting").innerHTML=esc(localStorage.getItem("ms_greeting")||defaultGreeting)+" <span>♡</span>";
+ $("settingsModal").classList.add("hidden");
+ render();
+ applyLanguage();
+ renderDailyQuote();
+ toast(lang==="vi"?"Đã lưu cài đặt ♡":"Settings saved ♡");
+};
