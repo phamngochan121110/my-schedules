@@ -561,7 +561,7 @@ applyLanguage=function(){
  originalApplyLanguage();
  const lang=localStorage.getItem("ms_language")||"vi";
  const custom=localStorage.getItem("ms_greeting");
- if(!custom) $("helloGreeting").innerHTML=(lang==="vi"?"Chào, Hân!":"Hi, Hân!")+" <span>♡</span>";
+ if(!custom || custom==="Hi, Hân!" || custom==="Chào, Hân!") $("helloGreeting").innerHTML=(lang==="vi"?"Chào, Hân!":"Hi, Hân!")+" <span>♡</span>";
  const typeLabels=lang==="vi"
   ?["Sinh nhật","Học tập","Ăn uống","Đạp xe","Trường học","Bơi lội","Mua sắm","Thi cử","Du lịch","Hẹn gặp","Khác"]
   :["Birthday","Study","Food","Cycling","School","Swimming","Shopping","Exams","Travel","Meetup","Other"];
@@ -590,3 +590,9 @@ $("settingsForm").onsubmit=function(e){
 };
 
 applyLanguage();render();renderDailyQuote();
+
+const baseLunarText=lunarText;
+lunarText=function(s){
+ const result=baseLunarText(s);
+ return (localStorage.getItem("ms_language")||"vi")==="en"?result.replace(" nhuận"," leap"):result;
+};
