@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#8c56d4">
+  <meta name="description" content="My Schedules - lịch âm dương và quản lý lịch trình cá nhân">
+  <title>My Schedules ♡</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark">✿</span><div><b>my schedules</b><small>little plans, big days</small></div></div>
+    <div class="hello">Hi, Hân! <span>♡</span></div>
+    <nav id="nav">
+      <button class="nav-item active" data-view="calendar"><span>▦</span> Calendar</button>
+      <button class="nav-item" data-view="events"><span>✧</span> Scheduled</button>
+      <button class="nav-item" data-view="tasks"><span>☑</span> To-do list</button>
+      <button class="nav-item" data-view="countdowns"><span>⌛</span> Countdowns</button>
+      <button class="nav-item" data-view="stats"><span>▤</span> Statistics</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="mini-note"><span>☁</span><b>Your space, your pace</b><small>Dữ liệu được lưu trên thiết bị này.</small></div>
+      <button class="nav-item" id="backupBtn"><span>⇅</span> Sao lưu / khôi phục</button>
+    </div>
+  </aside>
+
+  <main class="main-panel">
+    <header class="topbar">
+      <div><div class="eyebrow">YOUR PERSONAL PLANNER</div><h1 id="pageTitle">Calendar <span>♡</span></h1></div>
+      <div class="top-actions"><span class="today-chip" id="todayLabel"></span><button class="primary-btn" id="quickAdd">＋ Thêm sự kiện</button></div>
+    </header>
+    <section id="content" class="content"></section>
+  </main>
+
+  <aside class="detail-panel">
+    <div class="detail-head"><div><div class="eyebrow">YOUR DAY</div><h2 id="detailTitle">Chi tiết ngày</h2></div><span class="detail-spark">✦</span></div>
+    <div id="detailContent" class="detail-content"></div>
+    <div class="quote-card"><span>“</span><p>Small steps every day make the days count.</p><small>♡ MY SCHEDULES</small></div>
+  </aside>
+</div>
+
+<div class="modal-backdrop hidden" id="eventModal">
+  <form class="modal" id="eventForm">
+    <div class="modal-title"><div><div class="eyebrow">MAKE A LITTLE PLAN</div><h2 id="modalHeading">Thêm sự kiện</h2></div><button type="button" class="close-btn" id="closeModal">×</button></div>
+    <input type="hidden" id="eventId">
+    <label>Tên sự kiện<input id="eventName" required maxlength="80" placeholder="Ví dụ: Sinh nhật, kiểm tra Toán..."></label>
+    <div class="form-row">
+      <label>Ngày<input id="eventDate" type="date" required></label>
+      <label>Giờ<input id="eventTime" type="time"></label>
+    </div>
+    <div class="form-row">
+      <label>Loại sự kiện<select id="eventType">
+        <option value="birthday">🎂 Sinh nhật</option><option value="study">📚 Học tập</option><option value="food">🍰 Ăn uống</option>
+        <option value="bike">🚲 Đạp xe</option><option value="school">🏫 Trường học</option><option value="swim">🏊 Bơi lội</option>
+        <option value="shopping">🛍️ Mua sắm</option><option value="exam">📝 Thi cử</option><option value="travel">✈️ Du lịch</option>
+        <option value="meeting">💌 Hẹn gặp</option><option value="other">🌷 Khác</option>
+      </select></label>
+      <label>Nhắc trước<select id="eventReminder"><option value="0">Không nhắc</option><option value="10">10 phút</option><option value="30">30 phút</option><option value="60">1 giờ</option><option value="1440">1 ngày</option></select></label>
+    </div>
+    <label>Ghi chú<textarea id="eventNote" rows="3" placeholder="Thêm thông tin nhỏ cho ngày này..."></textarea></label>
+    <div class="modal-actions"><button type="button" class="ghost-btn" id="deleteEvent">Xóa sự kiện</button><button class="primary-btn" type="submit">Lưu sự kiện ♡</button></div>
+  </form>
+</div>
+
+<div class="modal-backdrop hidden" id="backupModal">
+  <div class="modal">
+    <div class="modal-title"><div><div class="eyebrow">YOUR DATA</div><h2>Sao lưu & khôi phục</h2></div><button class="close-btn" id="closeBackup">×</button></div>
+    <p class="muted">Dữ liệu được lưu offline trên từng thiết bị. Hãy xuất tệp sao lưu ở máy này rồi nhập tệp đó trên thiết bị còn lại để chuyển lịch.</p>
+    <div class="backup-actions"><button class="primary-btn" id="exportBtn">↓ Xuất bản sao lưu</button><label class="upload-btn">↑ Nhập bản sao lưu<input type="file" id="importFile" accept=".json,application/json"></label></div>
+    <p class="tiny muted">Tệp sao lưu chứa sự kiện, công việc và các ngày đếm ngược của bạn.</p>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>

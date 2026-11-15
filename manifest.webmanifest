@@ -1,0 +1,16 @@
+{
+  "name": "My Schedules",
+  "short_name": "Schedules",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#fcf9ff",
+  "theme_color": "#8c56d4",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
