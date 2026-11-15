@@ -630,7 +630,7 @@ lunarText=function(s){
  return (localStorage.getItem("ms_language")||"vi")==="en"?result.replace(" nhuận"," leap"):result;
 };
 
-PAIRS.push(["Âm lịch","Lunar calendar"],["Lịch âm","Lunar calendar"],["Lịch dương","Solar calendar"],["Chỉnh sửa sự kiện","Edit event"],["Chi tiết ngày","Day details"]);
+PAIRS.push(["Lunar calendar","Âm lịch"],["Solar calendar","Lịch dương"],["Edit event","Chỉnh sửa sự kiện"],["Day details","Chi tiết ngày"]);
 applyLanguage();
 render();
 renderDailyQuote();
@@ -672,5 +672,5 @@ DAILY_QUOTES.push(...[{"en":"Life is what happens when you're busy making other 
 
 renderDailyQuote();
 
-PAIRS.push(...[["Go to current month","Về tháng hiện tại"],["Month","Tháng"],["Year","Năm"],["Hôm nay","Today"],["Sắp tới","Coming up"],["Một việc nhỏ hôm nay","A little task for today"],["Chọn ngày để xem chi tiết","Choose a day to see details"],["Sinh nhật","Birthday"],["Học tập","Study"],["Công việc đang chờ bạn hoàn thành. Cứ từ từ nhé!","Tasks are waiting for you. Take your time!"],["Chưa có sự kiện nào trong ngày này.","No events on this day."],["Thêm một điều đáng mong chờ nhé!","Add something to look forward to!"],["Thêm vào ngày này","Add to this day"],["Tháng hiện tại","Current month"],["Đi chơi","Going out"]]);
+PAIRS.push(["Go to current month","Về tháng hiện tại"],["Month","Tháng"],["Year","Năm"],["Coming up","Sắp tới"],["A little task for today","Một việc nhỏ hôm nay"],["Choose a day to see details","Chọn ngày để xem chi tiết"],["Birthday","Sinh nhật"],["Study","Học tập"],["Tasks are waiting for you. Take your time!","Công việc đang chờ bạn hoàn thành. Cứ từ từ nhé!"],["No events on this day.","Chưa có sự kiện nào trong ngày này."],["Add something to look forward to!","Thêm một điều đáng mong chờ nhé!"],["Add to this day","Thêm vào ngày này"],["Current month","Tháng hiện tại"],["Going out","Đi chơi"]]);
 applyLanguage();
