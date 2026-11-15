@@ -77,3 +77,33 @@
 .month-title-button .month-title-label{font-size:19px;font-weight:900;letter-spacing:normal}
 .month-title-button .month-picker-caret{font-size:16px}
 @media(max-width:700px){.month-title-button .month-title-label{font-size:16px}}
+
+/* Readability pass: larger type and category icons in the calendar and detail column. */
+.weekdays div{font-size:12px}
+.lunar{font-size:11px}
+.event-dot{font-size:16px;line-height:1;display:inline-flex;align-items:center;justify-content:center}
+.outing-icon{display:inline-block;width:23px;height:23px;object-fit:contain;vertical-align:middle}
+.day-cell .outing-icon{width:24px;height:24px}
+.calendar-legend{font-size:12px}
+.mini-card h3{font-size:15px}
+.mini-card p{font-size:13px;line-height:1.65}
+.detail-head h2{font-size:21px}
+.date-summary strong{font-size:28px}
+.date-summary small{font-size:12px}
+.event-item b{font-size:14px}
+.event-item small{font-size:12px;line-height:1.5}
+.empty-state{font-size:13px}
+.quote-card p{font-size:14px;line-height:1.55;min-height:0}
+.quote-card small{font-size:9px}
+.list-icon{font-size:23px}
+.list-icon .outing-icon{width:29px;height:29px}
+@media(max-width:700px){
+ .weekdays div{font-size:10px}
+ .lunar{font-size:9px}
+ .event-dot{font-size:12px}
+ .day-cell .outing-icon{width:19px;height:19px}
+ .mini-card p{font-size:12px}
+ .event-item b{font-size:13px}
+ .event-item small{font-size:11px}
+ .quote-card p{font-size:13px}
+}
