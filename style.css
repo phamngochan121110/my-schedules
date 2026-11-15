@@ -71,3 +71,9 @@
 :root[data-theme="dark"] .picker-current{background:#51452b;color:#ffe6a6}
 :root[data-theme="dark"] .toast{background:#eee2fb;color:#30213d}
 :root[data-theme="dark"] .event-dot{filter:saturate(.9)}
+
+/* Keep the month heading typography from the original calendar design. */
+.month-title-button{font-family:inherit;font-size:inherit;font-weight:inherit;line-height:inherit}
+.month-title-button .month-title-label{font-size:19px;font-weight:900;letter-spacing:normal}
+.month-title-button .month-picker-caret{font-size:16px}
+@media(max-width:700px){.month-title-button .month-title-label{font-size:16px}}
