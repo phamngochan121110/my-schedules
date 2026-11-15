@@ -606,3 +606,8 @@ lunarText=function(s){
  const result=baseLunarText(s);
  return (localStorage.getItem("ms_language")||"vi")==="en"?result.replace(" nhuận"," leap"):result;
 };
+
+PAIRS.push(["Âm lịch","Lunar calendar"],["Lịch âm","Lunar calendar"],["Lịch dương","Solar calendar"],["Chỉnh sửa sự kiện","Edit event"],["Chi tiết ngày","Day details"]);
+applyLanguage();
+render();
+renderDailyQuote();
