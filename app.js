@@ -635,7 +635,7 @@ applyLanguage();
 render();
 renderDailyQuote();
 
-PAIRS.push(["Lịch dương · lịch âm hiển thị cùng lúc","Solar · lunar calendar"],["Về tháng hiện tại","Go to current month"]);
+PAIRS.push(["Solar · lunar calendar","Lịch dương · lịch âm hiển thị cùng lúc"]);
 
 
 // Appearance preference: saved locally and kept when switching languages.
