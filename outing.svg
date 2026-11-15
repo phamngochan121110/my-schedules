@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 220">
+<g fill="#8c56d4" stroke="#8c56d4" stroke-linecap="round" stroke-linejoin="round">
+<!-- bench back and seat -->
+<path d="M28 92h142a8 8 0 0 1 0 16H28a8 8 0 0 1 0-16Zm0 28h142a8 8 0 0 1 0 16H28a8 8 0 0 1 0-16Zm0 28h132a8 8 0 0 1 0 16H28a8 8 0 0 1 0-16Z"/>
+<path d="M36 164h16v38H36zm123 0h16v38h-16zM20 171h190a8 8 0 0 1 0 16H20a8 8 0 0 1 0-16Z"/>
+<!-- person head -->
+<circle cx="174" cy="37" r="18" stroke="none"/>
+<!-- body, seated pose -->
+<path d="M156 62c-7 1-12 7-14 15l-8 39c-2 10 4 17 14 17h27c9 0 15-6 16-15l7-39c2-10-4-17-14-17z" stroke="none"/>
+<path d="M153 126c-2 16-5 34-8 49-2 9 3 15 10 15s11-5 13-13l9-45z" stroke="none"/>
+<path d="M176 125c0 16 1 34 2 49 0 9 5 14 12 13 7-1 10-7 9-15l-3-49z" stroke="none"/>
+<!-- balloon and string -->
+<path d="M70 23c0-13 10-22 22-22s22 9 22 22c0 20-22 34-22 34S70 43 70 23Z" stroke="none"/>
+<path d="M92 57c-2 8 8 10 5 17-2 5-8 6-7 12" fill="none" stroke-width="4"/>
+</g>
+</svg>
