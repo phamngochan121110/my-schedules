@@ -48,3 +48,112 @@ if("serviceWorker"in navigator&&location.protocol.startsWith("http"))window.addE
 render();
 
 if("Notification" in window && Notification.permission === "granted"){events.forEach(scheduleReminder)}
+
+
+const DAILY_QUOTES = [
+{en:"Only that day dawns to which we are awake.",vi:"Ngày mới chỉ thật sự bắt đầu khi ta biết trân trọng nó.",by:"Henry David Thoreau",src:"Walden (1854)",url:"https://www.gutenberg.org/ebooks/205"},
+{en:"Peace is always beautiful.",vi:"Bình yên luôn mang một vẻ đẹp riêng.",by:"Walt Whitman",src:"The Sleepers, Leaves of Grass",url:"https://www.gutenberg.org/ebooks/1322"},
+{en:"As long as you live, keep learning how to live.",vi:"Còn sống là còn học cách sống tốt hơn.",by:"Seneca",src:"Letters to Lucilius, Letter 76",url:"https://en.wikisource.org/wiki/Moral_letters_to_Lucilius"},
+{en:"Sweet are the uses of adversity.",vi:"Khó khăn cũng có thể đem lại những điều quý giá.",by:"William Shakespeare",src:"As You Like It, Act 2, Scene 1",url:"https://www.gutenberg.org/ebooks/1523"},
+{en:"No man is an island.",vi:"Không ai phải đi qua mọi điều một mình.",by:"John Donne",src:"Meditation XVII (1624)",url:"https://www.gutenberg.org/ebooks/23772"},
+{en:"Knowledge is power.",vi:"Tri thức là sức mạnh.",by:"Francis Bacon",src:"Meditationes Sacrae (1597)",url:"https://en.wikisource.org/wiki/Meditationes_Sacrae"},
+{en:"Well begun is half done.",vi:"Khởi đầu tốt đẹp là đã đi được nửa chặng đường.",by:"Traditional saying",src:"Common classical proverb",url:"https://classics.mit.edu/Aristotle/nicomachaen.html"},
+{en:"Very little indeed is necessary for living a happy life.",vi:"Để sống vui vẻ, đôi khi ta không cần quá nhiều.",by:"Marcus Aurelius",src:"Meditations, Book VII",url:"https://www.gutenberg.org/ebooks/"},
+{en:"Start where you are. Use what you have. Do what you can.",vi:"Bắt đầu từ nơi bạn đang đứng, với những gì bạn có.",by:"My Schedules",src:"Lời nhắn riêng",url:""},
+{en:"A little progress each day adds up to big results.",vi:"Một chút tiến bộ mỗi ngày sẽ tạo nên điều lớn lao.",by:"My Schedules",src:"Lời nhắn riêng",url:""},
+{en:"You do not have to do everything today.",vi:"Bạn không cần phải hoàn thành mọi thứ chỉ trong hôm nay.",by:"My Schedules",src:"Lời nhắn riêng",url:""},
+{en:"Let today be a fresh page.",vi:"Hãy để hôm nay là một trang giấy mới.",by:"My Schedules",src:"Lời nhắn riêng",url:""},
+{en:"Your pace is still a pace forward.",vi:"Đi theo nhịp độ của riêng mình vẫn là đang tiến về phía trước.",by:"My Schedules",src:"Lời nhắn riêng",url:""},
+{en:"Make room for small moments of joy.",vi:"Hãy dành chỗ cho những niềm vui bé xinh.",by:"My Schedules",src:"Lời nhắn riêng",url:""},
+{en:"Rest is part of the journey, too.",vi:"Nghỉ ngơi cũng là một phần của hành trình.",by:"My Schedules",src:"Lời nhắn riêng",url:""},
+{en:"You can begin again, gently.",vi:"Bạn luôn có thể bắt đầu lại, thật nhẹ nhàng.",by:"My Schedules",src:"Lời nhắn riêng",url:""},
+{en:"One kind thought can brighten a whole day.",vi:"Một suy nghĩ tử tế có thể làm sáng bừng cả ngày.",by:"My Schedules",src:"Lời nhắn riêng",url:""},
+{en:"Celebrate how far you have come.",vi:"Hãy trân trọng quãng đường bạn đã đi qua.",by:"My Schedules",src:"Lời nhắn riêng",url:""},
+{en:"Small steps still move you forward.",vi:"Những bước nhỏ vẫn đưa bạn tiến lên.",by:"My Schedules",src:"Lời nhắn riêng",url:""},
+{en:"Give yourself time to grow.",vi:"Hãy cho bản thân thời gian để trưởng thành.",by:"My Schedules",src:"Lời nhắn riêng",url:""},
+{en:"A calm mind makes space for good ideas.",vi:"Tâm trí bình yên sẽ có chỗ cho những ý tưởng tốt đẹp.",by:"My Schedules",src:"Lời nhắn riêng",url:""},
+{en:"Today is a good day to try again.",vi:"Hôm nay là một ngày tốt để thử lại.",by:"My Schedules",src:"Lời nhắn riêng",url:""},
+{en:"Notice the good things, however small.",vi:"Hãy để ý những điều tốt đẹp, dù chúng nhỏ bé.",by:"My Schedules",src:"Lời nhắn riêng",url:""},
+{en:"You are allowed to take things one step at a time.",vi:"Bạn có thể giải quyết mọi thứ từng bước một.",by:"My Schedules",src:"Lời nhắn riêng",url:""},
+{en:"A new day brings new possibilities.",vi:"Ngày mới luôn mang theo những khả năng mới.",by:"My Schedules",src:"Lời nhắn riêng",url:""},
+{en:"Be proud of the effort you make.",vi:"Hãy tự hào về những nỗ lực của mình.",by:"My Schedules",src:"Lời nhắn riêng",url:""},
+{en:"Let your plans leave space for wonder.",vi:"Hãy để lịch trình có chỗ cho những điều bất ngờ.",by:"My Schedules",src:"Lời nhắn riêng",url:""},
+{en:"Keep the memories, learn from the moments.",vi:"Giữ lại kỷ niệm và học từ từng khoảnh khắc.",by:"My Schedules",src:"Lời nhắn riêng",url:""},
+{en:"A small act of kindness matters.",vi:"Một hành động tử tế nhỏ bé cũng rất đáng quý.",by:"My Schedules",src:"Lời nhắn riêng",url:""},
+{en:"You are growing in ways you cannot yet see.",vi:"Bạn đang trưởng thành theo những cách có thể chưa nhận ra.",by:"My Schedules",src:"Lời nhắn riêng",url:""}
+];
+const PAIRS = [
+["Calendar","Lịch"],["Scheduled","Sự kiện"],["To-do list","Việc cần làm"],["Countdowns","Đếm ngược"],["Statistics","Thống kê"],
+["YOUR PERSONAL PLANNER","LỊCH TRÌNH CÁ NHÂN"],["YOUR DAY","NGÀY CỦA BẠN"],["Hi, Hân!","Chào, Hân!"],["little plans, big days","kế hoạch nhỏ, ngày vui"],
+["Your space, your pace","Không gian của riêng bạn"],["Dữ liệu được lưu trên thiết bị này.","Your data is saved on this device."],
+["Lịch dương · lịch âm hiển thị cùng lúc","Solar and lunar calendars together"],["Sắp tới","Coming up"],["Một việc nhỏ hôm nay","A little task for today"],
+["Tất cả sự kiện ✧","All events ✧"],["Những điều quan trọng bạn đã đánh dấu","The important things you've marked"],
+["Viết ra từng việc nhỏ và đánh dấu khi hoàn thành","Write down little tasks and tick them off"],
+["Bạn cần làm gì?","What do you need to do?"],["Không đặt hạn","No due date"],["Danh sách đang trống. Thêm một việc nhỏ nhé!","Your list is empty. Add a little task!"],
+["Đếm ngược đến những ngày bạn mong chờ","Count down to days you're looking forward to"],["Tên ngày đặc biệt","Special day name"],
+["Thống kê lịch trình","Schedule statistics"],["Tổng quan những gì bạn đã lên kế hoạch","An overview of what you've planned"],
+["TỔNG SỰ KIỆN","TOTAL EVENTS"],["SẮP DIỄN RA","UPCOMING"],["VIỆC ĐÃ XONG","TASKS DONE"],
+["MAKE A LITTLE PLAN","MAKE A LITTLE PLAN"],["Thêm sự kiện","Add event"],["Tên sự kiện","Event name"],["Ngày","Date"],["Giờ","Time"],["Loại sự kiện","Event type"],["Nhắc trước","Remind me"],["Ghi chú","Notes"],["Xóa sự kiện","Delete event"],["Lưu sự kiện ♡","Save event ♡"],
+["YOUR DATA","YOUR DATA"],["Sao lưu & khôi phục","Backup & restore"],["Xuất bản sao lưu","Export backup"],["Nhập bản sao lưu","Import backup"],
+["Không nhắc","No reminder"],["10 phút","10 minutes"],["30 phút","30 minutes"],["1 giờ","1 hour"],["1 ngày","1 day"],
+["Hôm nay","Today"],["Thêm vào ngày này","Add to this day"],["Chưa có sự kiện nào trong ngày này.","No events on this day."],
+["Chọn ngày để xem chi tiết","Choose a day to see details"],["Cả ngày","All day"],["Chi tiết","Details"],["Xóa","Delete"],
+["Đã lưu sự kiện ♡","Event saved ♡"],["Đã xóa sự kiện","Event deleted"],["Không có sự kiện sắp tới.","No upcoming events."],
+["Công việc đang chờ bạn hoàn thành. Cứ từ từ nhé!","Tasks are waiting for you. Take your time!"],
+["Đã qua","Passed"],["＋ Thêm mới","＋ Add new"],["＋ Thêm","＋ Add"],["Sao lưu / khôi phục","Backup / restore"]
+];
+function applyLanguage(){
+ const lang=localStorage.getItem("ms_language")||"vi";
+ document.documentElement.lang=lang;
+ const pairs=lang==="vi"?PAIRS:PAIRS.map(function(p){return [p[1],p[0]];});
+ const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+ let node;
+ while(node=walker.nextNode()){
+  let value=node.nodeValue;
+  pairs.forEach(function(p){value=value.split(p[0]).join(p[1]);});
+  node.nodeValue=value;
+ }
+ document.querySelectorAll("[placeholder]").forEach(function(el){
+  let p=el.getAttribute("placeholder");
+  pairs.forEach(function(pair){if(p===pair[0])p=pair[1];});
+  el.setAttribute("placeholder",p);
+ });
+ $("settingsTitle").textContent=lang==="vi"?"Cài đặt ⚙":"Settings ⚙";
+ $("greetingLabel").firstChild.textContent=lang==="vi"?"Lời chào ở thanh bên":"Sidebar greeting";
+ $("languageLabel").firstChild.textContent=lang==="vi"?"Ngôn ngữ":"Language";
+ $("settingsHint").textContent=lang==="vi"?"Tùy chọn được lưu trên thiết bị này.":"Your preferences are saved on this device.";
+ $("saveSettings").textContent=lang==="vi"?"Lưu ♡":"Save ♡";
+ $("settingsBtn").lastChild.textContent=lang==="vi"?" Cài đặt":" Settings";
+}
+function renderDailyQuote(){
+ const now=new Date(),start=new Date(now.getFullYear(),0,0);
+ const day=Math.floor((new Date(now.getFullYear(),now.getMonth(),now.getDate())-start)/86400000);
+ const q=DAILY_QUOTES[(day-1)%DAILY_QUOTES.length],lang=localStorage.getItem("ms_language")||"vi";
+ $("dailyQuoteText").textContent=lang==="vi"?q.vi:q.en;
+ const author=esc(q.by),source=esc(q.src);
+ $("dailyQuoteSource").innerHTML=q.url?"♡ "+author+" · <a href=\""+q.url+"\" target=\"_blank\" rel=\"noopener noreferrer\">"+source+"</a>":"♡ "+author+" · "+source;
+}
+function openSettings(){
+ $("greetingInput").value=localStorage.getItem("ms_greeting")||"Hi, Hân!";
+ $("languageSelect").value=localStorage.getItem("ms_language")||"vi";
+ $("settingsModal").classList.remove("hidden");
+}
+$("settingsBtn").onclick=openSettings;
+$("closeSettings").onclick=function(){$("settingsModal").classList.add("hidden");};
+$("settingsForm").onsubmit=function(e){
+ e.preventDefault();
+ localStorage.setItem("ms_greeting",$("greetingInput").value.trim()||"Hi, Hân!");
+ localStorage.setItem("ms_language",$("languageSelect").value);
+ $("helloGreeting").innerHTML=esc(localStorage.getItem("ms_greeting"))+" <span>♡</span>";
+ $("settingsModal").classList.add("hidden");
+ render();
+ applyLanguage();
+ renderDailyQuote();
+ toast($("languageSelect").value==="vi"?"Đã lưu cài đặt ♡":"Settings saved ♡");
+};
+const savedGreeting=localStorage.getItem("ms_greeting");
+if(savedGreeting)$("helloGreeting").innerHTML=esc(savedGreeting)+" <span>♡</span>";
+const originalRender=render;
+render=function(){originalRender();applyLanguage();renderDailyQuote();};
+applyLanguage();
+renderDailyQuote();
