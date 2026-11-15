@@ -588,3 +588,5 @@ $("settingsForm").onsubmit=function(e){
  renderDailyQuote();
  toast(lang==="vi"?"Đã lưu cài đặt ♡":"Settings saved ♡");
 };
+
+applyLanguage();render();renderDailyQuote();
