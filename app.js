@@ -662,3 +662,6 @@ $("settingsForm").onsubmit=function(e){
  applyTheme();
 };
 applyTheme();
+
+PAIRS.push(["🎡 Going out","🎡 Đi chơi"]);
+applyLanguage();applyTheme();
